@@ -1,0 +1,47 @@
+name: Rust
+
+on:
+  push:
+    branches: ["master"]
+    tags:
+      - "v*"
+  pull_request:
+    branches: ["master"]
+
+env:
+  CARGO_TERM_COLOR: always
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build
+        run: cargo build --release --verbose
+
+      - name: Tests
+        run: cargo test --verbose
+
+      - name: Créer l’archive
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          mkdir release
+          cp target/release/${{ github.event.repository.name }} release/
+          tar -czf ${{ github.event.repository.name }}-${{ github.ref_name }}-linux-x86_64.tar.gz -C release .
+
+      - name: Créer la GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            ${{ github.event.repository.name }}-${{ github.ref_name }}-linux-x86_64.tar.gz
