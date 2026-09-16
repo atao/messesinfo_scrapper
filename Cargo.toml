@@ -1,10 +1,10 @@
 [package]
-name = "messes_scraper"
+name = "messesinfo_scrapper"
 version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "messes_scraper"
+name = "messesinfo_scrapper"
 path = "src/main.rs"
 
 [dependencies]

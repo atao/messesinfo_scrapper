@@ -13,7 +13,7 @@ const GWT_URL: &str = "https://messes.info/gwtRequest";
 
 #[derive(Debug, Parser)]
 #[command(
-    name = "messes_scraper",
+    name = "messesinfo_scrapper",
     about = "Recupere les horaires des messes depuis messes.info",
     version,
     after_help = "Exemple:\n  cargo run -- --paroisse https://messes.info/communaute/pa/75/filles-de-la-charite --database messes.sqlite --verbose"
